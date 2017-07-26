@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: ./entrypoint.sh
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    env_file: env
+    container_name: "ecommerce_django"
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    env_file:
+      - env
+    container_name: "ecommerce_postgres"
